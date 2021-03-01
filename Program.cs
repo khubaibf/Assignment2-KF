@@ -10,21 +10,23 @@ namespace Assignment2_DIS_Spring2021
         static void Main(string[] args)
         {
             //Question1:
+            Console.WriteLine("Question 1");
             int[] ar1 = { 1,2,3,4,4,3,2,1 };
             int n1 = 4;
             ShuffleArray(ar1, n1);
-            
+            Console.WriteLine("");
+
             //Question 2 
             Console.WriteLine("Question 2");
             int[] ar2 = { 0, 1, 0, 3, 12 };
             MoveZeroes(ar2);
-            Console.WriteLine("");
+            Console.WriteLine();
             
             //Question3
-            /*Console.WriteLine("Question 3");
-            int[] ar3 = { 1, 2, 3 };
+            Console.WriteLine("Question 3");
+            int[] ar3 = { 1, 2, 3, 1, 1 };
             CoolPairs(ar3);
-            Console.WriteLine();*/
+            Console.WriteLine();
            
             //Question 4
             Console.WriteLine("Question 4");
@@ -59,7 +61,7 @@ namespace Assignment2_DIS_Spring2021
             int[,] scores = { { 1, 91 }, { 1, 92 }, { 2, 93 }, { 2, 97 }, { 1, 60 }, { 2, 77 }, { 1, 65 }, { 1, 87 }, { 1, 100 }, { 2, 100 }, { 2, 76 } };
             HighFive(scores);
             Console.WriteLine();
-            return;
+            
             //Question 8
             Console.WriteLine("Question 8");
             int n8 = 19;
@@ -73,7 +75,7 @@ namespace Assignment2_DIS_Spring2021
             }
 
             Console.WriteLine();
-
+            return;
             //Question 9
             Console.WriteLine("Question 9");
             int[] ar9 = { 7, 1, 5, 3, 6, 4 };
@@ -168,9 +170,7 @@ namespace Assignment2_DIS_Spring2021
                         // here count is incremented 
                         ar2[count++] = ar2[i];
 
-                // Now all non-zero elements have been shifted to 
-                // front and â..countâ.. is set as index of first 0. 
-                // Make all elements 0 from count to end. 
+             
                 while (count < ar2.Length)
                     ar2[count++] = 0;
 
@@ -214,18 +214,25 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
-                int count =0 ;
-                for (int i=0; i<nums.Length; i++)
+                Dictionary<int, int> pairs = new Dictionary<int, int>();
+                for (int i = 0; i < nums.Length; i++)
                 {
-                    for (int j = 0; j < nums.Length; j++)
+                    if (pairs.ContainsKey(nums[i]))
                     {
-                        if (nums[i] == nums[j] && i < j)
-                        {
-                            count++;
-                        }
+                        pairs[nums[i]] += 1;
+                    }
+                    else
+                    {
+                        pairs[nums[i]] = 0;
                     }
                 }
-                Console.WriteLine(count);
+
+                int result = 0;
+                foreach (var pair in pairs)
+                {
+                    result += ((pair.Value) * (pair.Value + 1)) / 2;
+                }
+                Console.WriteLine(result);
             }
 
             catch (Exception)
@@ -493,6 +500,34 @@ namespace Assignment2_DIS_Spring2021
             try
             {
                 //write your code here.
+                int num = n;
+                List<int> already = new List<int>();
+
+                while (true)
+                {
+                    string s = num.ToString();
+
+                    var digits = s.Split("").Select(x => Convert.ToInt32(x) * Convert.ToInt32(x)).ToList();
+                    
+                    if (digits.Sum() == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        num = digits.Sum();
+
+                        if (already.Contains(num))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            already.Add(num);
+                        }
+                    }
+                }
+
                 return false;
             }
             catch (Exception)
