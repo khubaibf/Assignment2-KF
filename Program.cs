@@ -117,6 +117,7 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
+                // create new array and add elements from original array at the desired positions
                 var temp = new int[nums.Length];
                 for (int i=0; i<n; i++)
                 {
@@ -124,6 +125,7 @@ namespace Assignment2_DIS_Spring2021
                     temp[(2 * i)+1] = nums[n+i];
                 }
 
+                // print new array
                 Console.Write("[");
                 for (int i = 0; i < 2*n; i++)
                 {
@@ -159,21 +161,20 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
-                // Count of non-zero elements 
+                // Count non-zero elements 
                 int count = 0;
 
-                // Traverse the array. If element encountered is 
-                // non-zero, then replace the element  
+                // replace any non-zero element that is encountered
                 for (int i = 0; i < ar2.Length; i++)
                     if (ar2[i] != 0)
-
-                        // here count is incremented 
+                        // increment count as we encounter the element
                         ar2[count++] = ar2[i];
 
-             
+                // at every index greater than count of non-zero elements, set element to zero
                 while (count < ar2.Length)
                     ar2[count++] = 0;
 
+                // print result
                 Console.Write("[");
                 for (int i = 0; i < ar2.Length; i++)
                 {
@@ -214,6 +215,7 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
+                // dict to store number of occurences for each unique element
                 Dictionary<int, int> pairs = new Dictionary<int, int>();
                 for (int i = 0; i < nums.Length; i++)
                 {
@@ -227,6 +229,7 @@ namespace Assignment2_DIS_Spring2021
                     }
                 }
 
+                // for loop to count number of pairs using the formula for summing numbers from 1 to n
                 int result = 0;
                 foreach (var pair in pairs)
                 {
@@ -264,10 +267,16 @@ namespace Assignment2_DIS_Spring2021
             try
             {
                 //write your code here.
+                // sort array
                 Array.Sort(nums);
 
+                // set i to first index, j to last index
                 int i = 0, j = nums.Length - 1;
 
+                // while i and j are not at same index
+                    // increment i if current sum is less than target
+                    // or decrement j if current sum is greater than target
+                    // print indices where sum equals target
                 while (i != j)
                 {
                     if (nums[i] + nums[j] == target)
@@ -316,13 +325,16 @@ namespace Assignment2_DIS_Spring2021
             try
             {
                 //write your code here.
+                // create array of characters from string
                 char[] str = s.ToCharArray();
 
+                // strore characters in desired order in the new array
                 for (int i = 0; i<indices.Length; i++)
                 {
                     str[indices[i]] = s[i];
                 }
 
+                // turn array to string and print it
                 Console.WriteLine(new string(str));
             }
             catch (Exception)
@@ -353,6 +365,7 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
+                // get mapping of characters from s1 to s2
                 IDictionary<char, char> pairs = new Dictionary<char, char>();
                 for (int i=0; i < s1.Length; i++)
                 {
@@ -364,6 +377,7 @@ namespace Assignment2_DIS_Spring2021
                         }
                         else
                         {
+                            // return false if dual mapping found
                             return false;
                         }
                     }
@@ -379,6 +393,7 @@ namespace Assignment2_DIS_Spring2021
                 vals = vals;
                 */
 
+                // if no two characters map to the same character, return true
                 if (s1.ToArray().Distinct().Count() == s2.ToArray().Distinct().Count())
                 {
                     return true;
@@ -418,9 +433,11 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
+                // create dict to store ID as key and array of top 5 scores as values
                 IDictionary<int, List<int>> top5 = new Dictionary<int, List<int>>();
                 for(int i = 0; i<items.GetLength(0); i++)
                 {
+                    // add ID and score if ID not already in dict
                     if (!top5.ContainsKey(items[i,0]))
                     {
                         top5[items[i, 0]] = new List<int>();
@@ -428,6 +445,8 @@ namespace Assignment2_DIS_Spring2021
                     }
                     else
                     {
+                        // if ID already has 5 scores, check if minimum of those 5 is less than current score in items
+                        // if yes, remove minimum score and add current one
                         if (top5[items[i, 0]].Count == 5)
                         {
                            if (top5[items[i, 0]].Min() < items[i, 1] )
@@ -436,6 +455,7 @@ namespace Assignment2_DIS_Spring2021
                                 top5[items[i, 0]].Add(items[i, 1]);
                            }
                         }
+                        // add current score if less than 5 scores
                         else if (top5[items[i, 0]].Count < 5)
                         {
                             top5[items[i, 0]].Add(items[i, 1]);
@@ -443,11 +463,14 @@ namespace Assignment2_DIS_Spring2021
                     }
                 }
                 
+                // create array to store averages
                 int[,] result = new int[top5.Count,2];
                 int counter = 0;
+                // sort list of keys
                 var keys = top5.Keys.ToList();
                 keys.Sort();
 
+                // add averages to array in sorted order
                 foreach (var key in keys)
                 {
                     result[counter, 0] = key;
@@ -455,6 +478,7 @@ namespace Assignment2_DIS_Spring2021
                     counter++;
                 }
 
+                // print result
                 for (int i = 0; i<result.GetLength(0); i++)
                 {
                     Console.Write($"[{result[i,0]},{result[i,1]}]");
@@ -501,26 +525,32 @@ namespace Assignment2_DIS_Spring2021
             {
                 //write your code here.
                 int num = n;
+                // create list to store numbers that we already encountered
                 List<int> already = new List<int>();
 
                 while (true)
                 {
+                    // convert number to string
                     string s = num.ToString();
-
+                    // get list of squares of each digit of the number
                     var digits = s.Split("").Select(x => Convert.ToInt32(x) * Convert.ToInt32(x)).ToList();
                     
+                    // if sum of squares of digits equals 1, return true
                     if (digits.Sum() == 1)
                     {
                         return true;
                     }
                     else
                     {
+                        // else, set num equals to sum of squares of digits
                         num = digits.Sum();
 
+                        // if num is equal to a number we have alreaday encountered, break and return false
                         if (already.Contains(num))
                         {
                             break;
                         }
+                        // else add num to list
                         else
                         {
                             already.Add(num);
