@@ -53,14 +53,13 @@ namespace Assignment2_DIS_Spring2021
                 Console.WriteLine("No, the given strings are not Isomorphic");
             }
             Console.WriteLine();
-            return;
 
             //Question 7
             Console.WriteLine("Question 7");
             int[,] scores = { { 1, 91 }, { 1, 92 }, { 2, 93 }, { 2, 97 }, { 1, 60 }, { 2, 77 }, { 1, 65 }, { 1, 87 }, { 1, 100 }, { 2, 100 }, { 2, 76 } };
             HighFive(scores);
             Console.WriteLine();
-
+            return;
             //Question 8
             Console.WriteLine("Question 8");
             int n8 = 19;
@@ -347,8 +346,36 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
-                IDictionary<char, char> numberNames = new Dictionary<char, char>();
+                IDictionary<char, char> pairs = new Dictionary<char, char>();
+                for (int i=0; i < s1.Length; i++)
+                {
+                    if (pairs.ContainsKey(s1[i]) )
+                    {
+                        if(pairs[s1[i]]==s2[i])
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        pairs[s1[i]] = s2[i];
+                    }
+                }
+                /*
+                HashSet<char> set = new HashSet<char>();
 
+                var vals = pairs.Values;
+                vals = vals;
+                */
+
+                if (s1.ToArray().Distinct().Count() == s2.ToArray().Distinct().Count())
+                {
+                    return true;
+                }
 
                 return false;
             }
@@ -384,8 +411,52 @@ namespace Assignment2_DIS_Spring2021
         {
             try
             {
-                //write your code here.
+                IDictionary<int, List<int>> top5 = new Dictionary<int, List<int>>();
+                for(int i = 0; i<items.GetLength(0); i++)
+                {
+                    if (!top5.ContainsKey(items[i,0]))
+                    {
+                        top5[items[i, 0]] = new List<int>();
+                        top5[items[i, 0]].Add(items[i, 1]);
+                    }
+                    else
+                    {
+                        if (top5[items[i, 0]].Count == 5)
+                        {
+                           if (top5[items[i, 0]].Min() < items[i, 1] )
+                           {
+                                top5[items[i, 0]].Remove(top5[items[i, 0]].Min());
+                                top5[items[i, 0]].Add(items[i, 1]);
+                           }
+                        }
+                        else if (top5[items[i, 0]].Count < 5)
+                        {
+                            top5[items[i, 0]].Add(items[i, 1]);
+                        }
+                    }
+                }
+                
+                int[,] result = new int[top5.Count,2];
+                int counter = 0;
+                var keys = top5.Keys.ToList();
+                keys.Sort();
 
+                foreach (var key in keys)
+                {
+                    result[counter, 0] = key;
+                    result[counter, 1] = (int) top5[key].Average();
+                    counter++;
+                }
+
+                for (int i = 0; i<result.GetLength(0); i++)
+                {
+                    Console.Write($"[{result[i,0]},{result[i,1]}]");
+
+                    if(i < result.GetLength(0)-1)
+                    {
+                        Console.Write(",");
+                    }
+                }
             }
             catch (Exception)
             {
